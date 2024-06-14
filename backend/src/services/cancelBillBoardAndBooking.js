@@ -5,6 +5,8 @@ import { Customer } from "../database/models/customerEntity.js"
 import { Seat } from "../database/models/seatEntity.js"
 import { Sequelize } from "sequelize"
 
+//Funcion para cancelar una cartelera y sus reservas
+
 export const cancelBillBoardAndBooking = async (req, res, next) => {
     let transaction
     const today = new Date()

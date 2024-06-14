@@ -60,6 +60,14 @@
 }
 
 
+.rooms {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    justify-items: center;
+    column-gap: 10px;
+}
+
+
 
 .label_name {
     grid-area: input;

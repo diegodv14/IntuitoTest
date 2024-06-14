@@ -21,6 +21,3 @@ servicesRouter.delete('cartelera/:id', async (req, res, next) => {
     }
 })
 
-servicesRouter.get('/', (req, res) => {
-    res.json("Hola")
-})

@@ -38,7 +38,7 @@ const formatDateToDDMMYYYY = (date: Date): string => {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
 
-    return `${day}/${month}/${year}`;
+    return `${year}/${month}/${day}`;
 };
 
 export const AdminCartelera = () => {
@@ -76,7 +76,7 @@ export const AdminCartelera = () => {
                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                 </svg>}</button>
             </ul>
-            {newBillBoard && <div className=" animate__animated animate__slideInUp flex flex-col relative bg-[#121312] gap-2 w-screen h-[255px]">
+            {newBillBoard && <div className=" animate__animated animate__slideInUp flex flex-col relative bg-[#121312] w-screen h-[255px]">
                 <h1 className="text-3xl p-6 font-[Tanker] text-white title">Crear nueva Cartelera</h1>
                 <form onSubmit={handleSubmit(createNewBillBoard)} className=" grid grid-rows-2 grid-cols-4 items-center gap-6 w-full pr-12 pl-12 text-white">
                     <label htmlFor="name" className="label">
@@ -84,7 +84,7 @@ export const AdminCartelera = () => {
                         <span className="label_name text-white" style={{ userSelect: "none" }}>Nombre de la Pelicula</span>
                     </label>
                     <label htmlFor="genre" className="flex flex-row gap-4 items-center">Genero:
-                        <select id="genre" className="bg-transparent border-white p-2 bg-white border-[1px] rounded-lg" {...register("genre", { required: true })}>
+                        <select id="genre" className="bg-transparent border-white p-2  border-[1px] rounded-lg" {...register("genre", { required: true })}>
                             {Object.values(Genre).map((g) => (
                                 <option key={g} className="text-black" value={g}>
                                     {g.slice()[0]}{g.slice(1).toLowerCase().replace('_', ' ')}
@@ -100,17 +100,17 @@ export const AdminCartelera = () => {
                         <span className="label_name text-white" style={{ userSelect: "none" }}>Duracion</span>
                     </label>
                     <label htmlFor="startTime" className="label">
-                        <input type="datetime" id="startTime" placeholder="" className=" text-white input" autoComplete="off" {...register("startTime", { required: true })} />
+                        <input type="time" id="startTime" placeholder="" className=" text-white input" autoComplete="off" {...register("startTime", { required: true })} />
                         <span className="label_name text-white" style={{ userSelect: "none" }}>Comienza</span>
                     </label>
                     <label htmlFor="endTime" className="label">
-                        <input type="datetime" id="endTime" placeholder="" className=" text-white input" autoComplete="off" {...register("endTime", { required: true })} />
+                        <input type="time" id="endTime" placeholder="" className=" text-white input" autoComplete="off" {...register("endTime", { required: true })} />
                         <span className="label_name text-white" style={{ userSelect: "none" }}>Termina</span>
                     </label>
                     <label htmlFor="room" className="flex flex-row gap-4 items-center whitespace-nowrap">Salas disponibles:
-                        <select id="room" className="bg-transparent border-white p-2 bg-white border-[1px] rounded-lg" {...register("room", { required: true })}>
+                        <select id="room" className="bg-transparent border-white p-2  border-[1px] rounded-lg" {...register("room", { required: true })}>
                             <option value="" className="text-black">Seleccione una sala</option>
-                            {availableRooms && availableRooms.map(room => <option className="text-black" key={room.id} value={room.id}>{room.name}</option>)}
+                            {availableRooms && availableRooms.filter(room => room.status === true).map(room => <option className="text-black" key={room.id} value={room.id}>{room.name}</option>)}
                         </select>
                     </label>
                     <button type="submit" className="flex flex-row gap-2 text-sm shadow-xl absolute top-5 left-80 w-fit items-center bg-white rounded-full text-black p-3 pl-5 pr-5">Crear Cartelera <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-film" viewBox="0 0 16 16">

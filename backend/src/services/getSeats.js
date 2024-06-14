@@ -1,6 +1,8 @@
 import { Room } from "../database/models/roomEntity.js"
 import { Seat } from "../database/models/seatEntity.js"
 
+//Funcion para obtener los asientos disponibles y ocupados de todas las salas
+
 export const getSeats = async () => {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
@@ -9,10 +11,12 @@ export const getSeats = async () => {
         where: {
             status: true
         },
-        include: {
-            model: Room,
-            required: true,
-        },
+        include: [
+            {
+                model: Room,
+                required: true,
+            }
+        ],
         group: ['roomID']
     })
 
@@ -20,10 +24,12 @@ export const getSeats = async () => {
         where: {
             status: false
         },
-        include: {
-            model: Room,
-            required: true,
-        },
+        include: [
+            {
+                model: Room,
+                required: true,
+            }
+        ],
         group: ['roomID']
     })
 

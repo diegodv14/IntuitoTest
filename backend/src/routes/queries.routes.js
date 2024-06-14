@@ -14,7 +14,7 @@ queriesRouter.post('/reservas/Horror', async (req, res, next) => {
     }
 })
 
-queriesRouter.get('/butacas/disponibles', async (req, res, next) => {
+queriesRouter.get('/asientos/porSala', async (req, res, next) => {
     try {
         const seats = await getSeats()
         res.json(seats)
