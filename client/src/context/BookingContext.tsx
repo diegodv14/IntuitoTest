@@ -9,9 +9,9 @@ interface Movie {
     status: boolean;
 }
 
-interface Billboard {
+export interface Billboard {
     id: number;
-    date: string;
+    date: Date;
     startTime: string;
     endTime: string;
     movieID: number;
@@ -47,7 +47,7 @@ interface Seat {
     Room: Room
 
 }
-interface Booking {
+export interface Booking {
     id: number;
     date: string;
     customerID: number;

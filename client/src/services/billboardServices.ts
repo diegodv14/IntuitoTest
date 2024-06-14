@@ -8,13 +8,19 @@ const getBillBoard = () => {
     return request.then(response => response.data)
 }
 
+
 const getBookings = () => {
     const request = axios.get(`${API}/reservaciones`)
     return request.then(response => response.data)
 }
 
+const deleteBillBoard = (billBoardID: number) => {
+    const request = axios.delete(`${API}/cartelera/${billBoardID}`)
+    return request.then(response => response.data)
+}
 export {
     getBillBoard,
-    getBookings
+    getBookings,
+    deleteBillBoard
 }
 

@@ -5,27 +5,32 @@ import { Customer } from "../database/models/customerEntity.js"
 import { Seat } from "../database/models/seatEntity.js"
 import { Sequelize } from "sequelize"
 
-export const cancelBillBoardAndBooking = async (billboardID) => {
+export const cancelBillBoardAndBooking = async (req, res, next) => {
     let transaction
     const today = new Date()
     try {
+        const billboardID = req.params.id
         transaction = await sequelize.transaction()
         const billboard = await Billboard.findByPk(billboardID, { transaction })
 
         if (!billboard) {
-            throw new Error('No se encontró la cartelera especificada.');
+            await transaction.rollback()
+            res.json('No se encontró la cartelera especificada.');
         }
-        if (billboard.date < today) throw new Error('No se puede eliminar una cartelera de una fecha anterior')
+        if (billboard.date < today) {
+            await transaction.rollback()
+            res.json('No se puede eliminar una cartelera de una fecha anterior')
+        }
 
         const bookings = await Booking.findAll({
             where: {
                 billboardID,
-                transaction
             },
+            transaction,
             include: [Customer]
         })
 
-        console.log('Clientes Afectados', bookings.map(book => book.customerEntity.name))
+        console.log('Clientes Afectados', bookings.map(book => book.Customer.name))
 
         const seatIDs = bookings.map(book => book.seatID)
 
@@ -39,11 +44,18 @@ export const cancelBillBoardAndBooking = async (billboardID) => {
             transaction
         });
 
-        return 'Cartelera Cancelada'
+        await Billboard.destroy({
+            where: { id: billboardID },
+            transaction
+        });
+
+        await transaction.commit()
+
+        res.json('Cartelera Cancelada')
 
     } catch (err) {
         if (transaction) await transaction.rollback()
-        return { error: err }
+        next(err)
     }
 
 }

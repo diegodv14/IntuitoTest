@@ -11,7 +11,7 @@ export const Dashboard = () => {
 
     useEffect(() => {
         getBillBoard().then(response => setBillBoards(response))
-    }, [BillBoards])
+    }, [])
 
     const nombresMeses = [
         'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',

@@ -1,5 +1,6 @@
 import express from 'express'
 import { getBillboards } from '../controllers/BillboardController.js'
+import { cancelBillBoardAndBooking } from '../services/cancelBillBoardAndBooking.js'
 export const billBoardRouter = express.Router()
 
 
@@ -15,3 +16,6 @@ billBoardRouter.get('/carteleras/:id', async (req, res) => {
 
 })
 
+billBoardRouter.delete('/cartelera/:id', async (req, res, next) => {
+    cancelBillBoardAndBooking(req, res, next)
+})

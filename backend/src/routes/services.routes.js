@@ -12,10 +12,9 @@ servicesRouter.post('reserva/:bookingID/cancelar', async (req, res, next) => {
     }
 })
 
-servicesRouter.post('cartelera/:billboardID/cancelar', async (req, res, next) => {
+servicesRouter.delete('cartelera/:id', async (req, res, next) => {
     try {
-        const { billboardID } = req.params
-        res.json(cancelBillBoardAndBooking(billboardID))
+        cancelBillBoardAndBooking(req, res, next)
     }
     catch (err) {
         next(err)

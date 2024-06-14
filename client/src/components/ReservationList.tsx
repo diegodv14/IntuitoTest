@@ -23,7 +23,7 @@ export const ReservationList = () => {
             </nav>
             <ul className="p-6 flex flex-col gap-4">
                 {bookings.map(booking => <li className="flex text-white rounded-lg p-3 flex-row items-center gap-4 bg-zinc-900" key={booking?.id}>
-                    <span className="flex items-center justify-center bg-white rounded-full p-3 size-10 text-black">{booking?.id}</span>
+                    <span className="flex items-center justify-center bg-white rounded-full p-3 size-10 font-semibold text-black">{booking?.id}</span>
                     <span><strong>Nombre:  </strong>{booking?.Customer.name} {booking?.Customer.lastname}</span>
                     <span><strong>C.I: </strong>{booking?.Customer.documentNumber}</span>
                     <span><strong>Email:  </strong>{booking?.Customer.email}</span>

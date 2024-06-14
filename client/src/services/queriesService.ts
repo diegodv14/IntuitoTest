@@ -15,6 +15,7 @@ const getHorrorBookings = (startTime: string, endTime: string) => {
 
 
 
+
 export {
     getSeats,
     getHorrorBookings

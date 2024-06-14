@@ -5,5 +5,5 @@ export const errorHandler = (err, req, res, next) => {
         return res.status(400).json({ error: 'Error de clave externa: ' + err.message });
     }
 
-    return res.json({ error: 'Ocurrió un error en el servidor. Por favor, inténtelo nuevamente más tarde.' });
+    return res.json({ error: 'Ocurrió un error en el servidor. Por favor, inténtelo nuevamente más tarde.' + err });
 }
