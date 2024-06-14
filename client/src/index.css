@@ -15,12 +15,13 @@
 
 .title {
     font-family: "Tanker";
+    text-decoration: underline red;
 }
 
 .billboards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    column-gap: 12px;
+    column-gap: 28px;
 }
 
 .imageMovie:nth-child(1) {
