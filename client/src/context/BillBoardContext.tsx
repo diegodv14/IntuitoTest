@@ -1,5 +1,8 @@
 import { ReactNode, createContext, useState, Dispatch, SetStateAction } from "react";
 
+
+//Uso de useContext para manejar estado Global
+
 type Movie = {
     id: number;
     name: string;

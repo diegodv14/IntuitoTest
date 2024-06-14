@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { getHorrorBookings, getSeats } from "../services/queriesService"
 import { getBillBoard } from "../services/billboardServices"
 import { billBoardContext } from "../context/BillBoardContext"
@@ -35,7 +35,7 @@ export const Dashboard = () => {
                 </nav>
                 <ul className="w-[full] flex-1 h-[85%] billboards mt-6 p-2">
                     {BillBoards.map(BillBoard => <li key={BillBoard.id} className="size-36 relative w-full h-[200px] rounded-lg flex flex-col justify-between">
-                        <div className="bg-red-500 rounded-md w-full hover:scale-110 transition-all h-[80%] shadow-md imageMovie">
+                        <div className={`rounded-md w-full hover:scale-110 transition-all h-[80%] shadow-md ${BillBoard.id === 1 ? "imageMovie1" : "imageMovie2"}`}>
                         </div>
                         <div className="h-[20%] p-4 mt-2 flex items-center justify-between flex-row">
                             <h1 className="whitespace-nowrap">{BillBoard.Movie.name}</h1>
@@ -49,11 +49,14 @@ export const Dashboard = () => {
             </section>
             <aside className="flex-1 p-10 flex items-center justify-center movie relative">
                 <div className="flex flex-row gap-6 ml-3 h-fit absolute top-12 right-6 text-white">
-                    <Link to={'/Butaca'} className="text-sm opacity-80 hover:opacity-100" title="Administrar Butacas"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-inboxes-fill" viewBox="0 0 16 16">
+                    <Link to={'/butaca'} className="text-sm opacity-80 hover:opacity-100" title="Administrar Butacas"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-inboxes-fill" viewBox="0 0 16 16">
                         <path d="M4.98 1a.5.5 0 0 0-.39.188L1.54 5H6a.5.5 0 0 1 .5.5 1.5 1.5 0 0 0 3 0A.5.5 0 0 1 10 5h4.46l-3.05-3.812A.5.5 0 0 0 11.02 1zM3.81.563A1.5 1.5 0 0 1 4.98 0h6.04a1.5 1.5 0 0 1 1.17.563l3.7 4.625a.5.5 0 0 1 .106.374l-.39 3.124A1.5 1.5 0 0 1 14.117 10H1.883A1.5 1.5 0 0 1 .394 8.686l-.39-3.124a.5.5 0 0 1 .106-.374zM.125 11.17A.5.5 0 0 1 .5 11H6a.5.5 0 0 1 .5.5 1.5 1.5 0 0 0 3 0 .5.5 0 0 1 .5-.5h5.5a.5.5 0 0 1 .496.562l-.39 3.124A1.5 1.5 0 0 1 14.117 16H1.883a1.5 1.5 0 0 1-1.489-1.314l-.39-3.124a.5.5 0 0 1 .121-.393z" />
                     </svg></Link>
-                    <Link to={'/Cartelera'} className="text-sm opacity-80 hover:opacity-100" title="Administrar Cartelera"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-film" viewBox="0 0 16 16">
+                    <Link to={'/cartelera'} className="text-sm opacity-80 hover:opacity-100" title="Administrar Cartelera"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-film" viewBox="0 0 16 16">
                         <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm4 0v6h8V1zm8 8H4v6h8zM1 1v2h2V1zm2 3H1v2h2zM1 7v2h2V7zm2 3H1v2h2zm-2 3v2h2v-2zM15 1h-2v2h2zm-2 3v2h2V4zm2 3h-2v2h2zm-2 3v2h2v-2zm2 3h-2v2h2z" />
+                    </svg></Link>
+                    <Link to={'/reservaciones'} title="Lista de Reservaciones" className="opacity-80 hover:opacity-100" ><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-archive-fill" viewBox="0 0 16 16">
+                        <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8z" />
                     </svg></Link>
                 </div>
                 <FormReserva />

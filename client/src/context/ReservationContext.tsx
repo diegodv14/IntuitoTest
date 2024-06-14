@@ -1,6 +1,9 @@
 import { create } from 'zustand'
 import { FormValues } from '../components/FormReserva'
 
+
+//uso de Zustand para manejar el estado Global
+
 interface booking {
     date: string,
     customerID: number

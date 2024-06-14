@@ -24,13 +24,13 @@
     column-gap: 28px;
 }
 
-.imageMovie:nth-child(1) {
+.imageMovie1 {
     background-image: url('/it.jpg');
     background-position: center;
     background-size: cover;
 }
 
-.imageMovie:nth-child(2) {
+.imageMovie2 {
     background-image: url('/endgame.png');
     background-size: cover;
 }

@@ -8,7 +8,13 @@ const getBillBoard = () => {
     return request.then(response => response.data)
 }
 
+const getBookings = () => {
+    const request = axios.get(`${API}/reservaciones`)
+    return request.then(response => response.data)
+}
+
 export {
-    getBillBoard
+    getBillBoard,
+    getBookings
 }
 

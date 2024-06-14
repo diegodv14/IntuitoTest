@@ -4,6 +4,7 @@ import { BillBoardProvider } from "./context/BillBoardContext"
 import { Booking } from "./pages/Booking"
 import { AdminCartelera } from "./components/AdminCartelera"
 import { AdminButaca } from "./components/AdminButaca"
+import { ReservationList } from "./components/ReservationList"
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/cartelera" element={<AdminCartelera />} />
         <Route path="/butaca" element={<AdminButaca />} />
+        <Route path="/reservaciones" element={<ReservationList />} />
       </Routes>
     </BillBoardProvider>
   )
