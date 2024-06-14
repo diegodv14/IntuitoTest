@@ -1,3 +1,82 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.movie {
+    background-image: url('/movie.jpg');
+    background-size: cover;
+}
+
+@font-face {
+    font-family: "Tanker";
+    src: url("/Tanker-Regular.woff2") format(".woff2");
+}
+
+.title {
+    font-family: "Tanker";
+}
+
+.billboards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    column-gap: 12px;
+}
+
+.imageMovie:nth-child(1) {
+    background-image: url('/it.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+.imageMovie:nth-child(2) {
+    background-image: url('/endgame.png');
+    background-size: cover;
+}
+
+.label {
+    display: grid;
+    grid-template-areas: "input";
+
+}
+
+.input {
+    grid-area: input;
+    width: 200px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 1px solid rgb(255, 255, 255);
+    padding: .9rem 1.8rem;
+}
+
+.label_name {
+    grid-area: input;
+    margin-left: 1rem;
+    padding: 0.5rem;
+    align-self: center;
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+
+    transition: transform .2s;
+    transform-origin: center left;
+}
+
+.input:focus+.label_name,
+.input:not(:placeholder-shown)+.label_name {
+    transform: translateY(-70%) scale(.7);
+    background-color: #121312;
+    will-change: transform;
+}
+
+.input:focus+.label_name,
+.input:not(:placeholder-shown)+.error {
+    will-change: transform;
+}
+
+input:-internal-autofill-selected {
+    appearance: menulist-button;
+    background-color: transparent !important;
+    color: fieldtext !important;
+}

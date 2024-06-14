@@ -1,9 +1,0 @@
-export const errorHandler = (err, req, res, next) => {
-    console.error('Error encontrado:', err);
-
-    if (err.name === 'SequelizeForeignKeyConstraintError') {
-        return res.status(400).json({ error: 'Error de clave externa: ' + err.message });
-    }
-
-    return res.status(500).json({ error: 'Ocurrió un error en el servidor. Por favor, inténtelo nuevamente más tarde.' });
-}
