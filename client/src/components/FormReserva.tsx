@@ -36,7 +36,7 @@ export const FormReserva: React.FC = () => {
             <h1 className="text-2xl text-white font-[Tanker]">Registrate para realizar tu Reservación 🎞</h1>
             <form onSubmit={handleSubmit(newBooking)} className="w-full grid grid-cols-2 p-5 h-[80%] items-center justify-end gap-4 rounded-lg text-white">
                 <label htmlFor="name" className="label">
-                    <input type="text" id="name" placeholder="" className="text-white input" autoComplete="off" {...register("name")} />
+                    <input type="text" id="name" placeholder="" className="text-white input" autoComplete="off" {...register("name", { required: true })} />
                     <span className="label_name" style={{ userSelect: "none" }}>Nombre</span>
                 </label>
                 <label htmlFor="lastname" className="label">

@@ -1,9 +1,9 @@
 import { create } from "zustand"
 
-interface Movie {
+export interface Movie {
     id: number;
     name: string;
-    genre: string;
+    genre: 'ACTION' | 'ADVENTURE' | 'COMEDY' | 'DRAMA' | 'FANTASY' | 'HORROR' | 'MUSICALS' | 'MYSTERY' | 'ROMANCE' | 'SCIENCE_FICTION' | 'SPORTS' | 'THRILLER' | 'WESTERN';
     allowedAge: number;
     lengthMinutes: number;
     status: boolean;
@@ -18,6 +18,7 @@ export interface Billboard {
     roomID: number;
     status: boolean;
     Movie: Movie;
+    Room: Room
 }
 
 interface Customer {
@@ -31,14 +32,14 @@ interface Customer {
     status: boolean;
 }
 
-interface Room {
+export interface Room {
     id: number
     name: string
     number: number
     status: boolean
 }
 
-interface Seat {
+export interface Seat {
     id: number
     number: number
     rowNumber: number

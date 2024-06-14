@@ -26,7 +26,9 @@ export const Booking = () => {
     }, [customer])
 
     const createBooking = (data) => {
-        console.log(data)
+        const newBooking = {
+
+        }
     }
 
     const GoBack = () => {
@@ -62,12 +64,13 @@ export const Booking = () => {
                 </div>}
             </div>
             {billBoardByAge.length > 0 && <div onSubmit={handleSubmit(createBooking)} className="h-[315px] p-6 bg-zinc-900 items-center justify-end flex relative">
-                {movie && <div className="flex-col gap-2 top-20 left-5 flex h-[280px] w-[300px] absolute">
+                {movie && <div className="flex-col gap-2 top-16 left-5 flex h-[280px] w-[300px] absolute">
                     <h1 className="font-[Tanker] text-2xl text-white">Usted eligio:</h1>
                     <span className="text-white flex flex-row gap-2"><span className="font-[Tanker]">Pelicula: </span> {movie.Movie.name}</span>
                     <span className="text-white flex flex-row gap-2"><span className="font-[Tanker]">Genero: </span> {movie.Movie.genre.slice()[0]}{movie.Movie.genre.slice(1).toLowerCase()}</span>
                     <span className="text-white flex flex-row gap-1 whitespace-nowrap"><span className="font-[Tanker]">Duracion en Cartelera:</span> <span className="">De {movie.startTime} a {movie.endTime} </span> </span>
                     <span className="text-white flex flex-row gap-2"><span className="font-[Tanker]">Edad Permitida: </span>+{movie.Movie.allowedAge}</span>
+                    <span className="text-white flex flex-row gap-2"><span className="font-[Tanker]">Lugar: </span>{movie.Room.name}</span>
                 </div>}
                 {!movie && <h1 className="absolute font-[Tanker] text-2xl top-4 left-5 text-white">Pasa el cursor sobre una pelicula para seleccionarla.</h1>}
                 <form className="h-[80%] w-[75%] flex items-center justify-center bg-green-500">

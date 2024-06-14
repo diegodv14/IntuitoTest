@@ -1,27 +1,9 @@
 import { ReactNode, createContext, useState, Dispatch, SetStateAction } from "react";
+import type { Billboard } from "./BookingContext";
 
 
 //Uso de useContext para manejar estado Global
 
-type Movie = {
-    id: number;
-    name: string;
-    genre: 'ACTION' | 'ADVENTURE' | 'COMEDY' | 'DRAMA' | 'FANTASY' | 'HORROR' | 'MUSICALS' | 'MYSTERY' | 'ROMANCE' | 'SCIENCE_FICTION' | 'SPORTS' | 'THRILLER' | 'WESTERN';
-    allowedAge: number;
-    lengthMinutes: number;
-    status: boolean;
-};
-
-type Billboard = {
-    id: number;
-    date: Date;
-    startTime: string;
-    endTime: string;
-    movieID: number;
-    roomID: number;
-    status: boolean;
-    Movie: Movie
-};
 
 type BillBoardsType = Array<Billboard>;
 

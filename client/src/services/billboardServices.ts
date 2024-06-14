@@ -14,6 +14,17 @@ const getBookings = () => {
     return request.then(response => response.data)
 }
 
+const getAvailableRooms = () => {
+    const request = axios.get(`${API}/salas`)
+    return request.then(response => response.data)
+}
+
+const getAllSeats = () => {
+    const request = axios.get(`${API}/asientos`)
+    return request.then(response => response.data)
+}
+
+
 const deleteBillBoard = (billBoardID: number) => {
     const request = axios.delete(`${API}/cartelera/${billBoardID}`)
     return request.then(response => response.data)
@@ -21,6 +32,8 @@ const deleteBillBoard = (billBoardID: number) => {
 export {
     getBillBoard,
     getBookings,
-    deleteBillBoard
+    deleteBillBoard,
+    getAvailableRooms,
+    getAllSeats
 }
 

@@ -35,3 +35,28 @@ export const getBookings = async (req, res, next) => {
         next(err)
     }
 }
+
+export const getRooms = async (req, res, next) => {
+    try {
+        const Rooms = await Room.findAll({
+            where: {
+                status: true
+            }
+        })
+        res.json(Rooms)
+    } catch (err) {
+        next(err)
+    }
+}
+
+
+export const getAllSeats = async (req, res, next) => {
+    try {
+        const Seats = await Seat.findAll({
+            include: [Room]
+        })
+        res.json(Seats)
+    } catch (err) {
+        next(err)
+    }
+}

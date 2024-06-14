@@ -19,7 +19,7 @@ export const cancelBillBoardAndBooking = async (req, res, next) => {
         }
         if (billboard.date < today) {
             await transaction.rollback()
-            res.json('No se puede eliminar una cartelera de una fecha anterior')
+            res.json('No se puede cancelar funciones de la cartelera con fecha anterior a la actual')
         }
 
         const bookings = await Booking.findAll({

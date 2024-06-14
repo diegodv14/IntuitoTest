@@ -46,18 +46,25 @@ async function createTestData() {
     const room1 = await Room.create({
         name: 'Sala 1',
         number: 1,
+        status: false
     });
 
     const room2 = await Room.create({
         name: 'Sala 2',
         number: 2,
+        status: false
     });
 
+    await Room.create({
+        name: 'Sala 3',
+        number: 3
+    })
 
     const seat1 = await Seat.create({
         number: 1,
         rowNumber: 1,
         roomID: room1.dataValues.id,
+        status: false
     });
 
     await Seat.create({
@@ -70,6 +77,7 @@ async function createTestData() {
         number: 1,
         rowNumber: 2,
         roomID: room2.dataValues.id,
+        status: false
     });
 
     await Seat.create({

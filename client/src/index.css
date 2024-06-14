@@ -50,6 +50,17 @@
     padding: .9rem 1.8rem;
 }
 
+.input2 {
+    grid-area: input;
+    width: 200px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 1px solid rgb(0, 0, 0);
+    padding: .9rem 1.8rem;
+}
+
+
+
 .label_name {
     grid-area: input;
     margin-left: 1rem;
@@ -77,6 +88,24 @@
 }
 
 input:-internal-autofill-selected {
+    appearance: menulist-button;
+    background-color: transparent !important;
+    color: fieldtext !important;
+}
+
+.input2:focus+.label_name,
+.input2:not(:placeholder-shown)+.label_name {
+    transform: translateY(-70%) scale(.7);
+    background-color: #121312;
+    will-change: transform;
+}
+
+.input2:focus+.label_name,
+.input2:not(:placeholder-shown)+.error {
+    will-change: transform;
+}
+
+input2:-internal-autofill-selected {
     appearance: menulist-button;
     background-color: transparent !important;
     color: fieldtext !important;
