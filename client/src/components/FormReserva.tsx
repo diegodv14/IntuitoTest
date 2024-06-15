@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 
 export type FormValues = {
     name: string
-    lastName: string
+    lastname: string
     documentNumber: string
     age: number
     phoneNumber: string
@@ -16,7 +16,7 @@ export type FormValues = {
 
 export const FormReserva: React.FC = () => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm<FormValues>()
+    const { register, handleSubmit } = useForm<FormValues>()
     const { customer, setCustomer } = useStore(useReservationStore)
 
     const navigate = useNavigate()
@@ -26,7 +26,7 @@ export const FormReserva: React.FC = () => {
     }
 
     useEffect(() => {
-        if (customer.age > 0 && customer.name !== "" && customer.documentNumber !== "" && customer.email !== "" && customer.lastName !== "" && customer.phoneNumber !== "") {
+        if (customer.age > 0 && customer.name !== "" && customer.documentNumber !== "" && customer.email !== "" && customer.lastname !== "" && customer.phoneNumber !== "") {
             navigate('/booking')
         }
     }, [customer])
@@ -40,7 +40,7 @@ export const FormReserva: React.FC = () => {
                     <span className="label_name" style={{ userSelect: "none" }}>Nombre</span>
                 </label>
                 <label htmlFor="lastname" className="label">
-                    <input type="text" id="lastname" placeholder="" className="text-white input" autoComplete="off" {...register("lastName", { required: true })} />
+                    <input type="text" id="lastname" placeholder="" className="text-white input" autoComplete="off" {...register("lastname", { required: true })} />
                     <span className="label_name" style={{ userSelect: "none" }}>Apellido</span>
                 </label>
                 <label htmlFor="documentNumber" className="label">

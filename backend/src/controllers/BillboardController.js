@@ -21,6 +21,36 @@ export const getBillboards = async (req, res, next) => {
     }
 }
 
-export const createBillboards = async (req, res, next) => {
+export const createBillboard = async (req, res, next) => {
+    try {
+
+        await Room.update({ status: false }, {
+            where: {
+                id: req.body.roomID
+            }
+        })
+
+        const createdBillboard = await Billboard.create(req.body)
+
+        if (!createdBillboard) res.json('Hubo un problema creando la cartelera.')
+
+        const newBillBoard = await Billboard.findOne({
+            where: {
+                id: createdBillboard.id
+            },
+            include: [
+                {
+                    model: Movie
+                },
+                {
+                    model: Room
+                }
+            ]
+        })
+
+        res.json(newBillBoard)
+    } catch (err) {
+        next(err)
+    }
 
 }

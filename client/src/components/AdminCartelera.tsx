@@ -2,10 +2,12 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { billBoardContext } from "../context/BillBoardContext"
 import { Cartelera } from "./BillBoard"
-import { getAllSeats, getAvailableRooms, getBillBoard } from "../services/billboardServices"
+import { createBillboard, getBillBoard } from "../services/billboardServices"
+import { getAvailableRooms } from "../services/roomServices"
 import { useForm } from "react-hook-form"
 import 'animate.css';
-import { Room, Seat } from "../context/BookingContext"
+import { Room } from "../context/BookingContext"
+import { createMovie } from "../services/movieServices"
 
 export enum Genre {
     ACTION = 'ACTION',
@@ -30,15 +32,15 @@ type NewBillBoardProps = {
     lengthMinutes: number,
     startTime: string,
     endTime: string,
-    room: number,
+    roomID: number,
 }
 
-const formatDateToDDMMYYYY = (date: Date): string => {
+export const formatDateToDDMMYYYY = (date: Date): string => {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
 
-    return `${year}/${month}/${day}`;
+    return `${year}-${month}-${day}`;
 };
 
 export const AdminCartelera = () => {
@@ -46,16 +48,39 @@ export const AdminCartelera = () => {
     const navigate = useNavigate()
     const { BillBoards, setBillBoards } = useContext(billBoardContext)
     const [newBillBoard, setNewBillBoard] = useState(false)
-    const { register, handleSubmit } = useForm<NewBillBoardProps>()
+    const { register, handleSubmit, reset } = useForm<NewBillBoardProps>()
     const [availableRooms, setAvailableRooms] = useState<Array<Room>>()
 
     useEffect(() => {
         getBillBoard().then(response => setBillBoards(response))
-        getAvailableRooms().then(response => setAvailableRooms(response))
+
     }, [])
 
-    const createNewBillBoard = (data: NewBillBoardProps) => {
-        const today = formatDateToDDMMYYYY(new Date())
+    useEffect(() => {
+        getAvailableRooms().then(response => setAvailableRooms(response))
+    }, [BillBoards])
+
+    const createNewBillBoard = async (data: NewBillBoardProps) => {
+        const newMovie = {
+            name: data.name,
+            genre: data.genre,
+            allowedAge: data.allowedAge,
+            lengthMinutes: data.lengthMinutes,
+        }
+        const CreatedMovie = await createMovie(newMovie)
+        const newBillBoard = {
+            date: formatDateToDDMMYYYY(new Date()),
+            movieID: CreatedMovie.id,
+            startTime: data.startTime,
+            endTime: data.endTime,
+            roomID: Number(data.roomID)
+        }
+        const CreatedBillBoard = await createBillboard(newBillBoard)
+        console.log(CreatedBillBoard)
+        setBillBoards(prevState => [...prevState, CreatedBillBoard])
+        reset()
+        setNewBillBoard(false)
+
     }
 
     return (
@@ -76,7 +101,7 @@ export const AdminCartelera = () => {
                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                 </svg>}</button>
             </ul>
-            {newBillBoard && <div className=" animate__animated animate__slideInUp flex flex-col relative bg-[#121312] w-screen h-[255px]">
+            {newBillBoard && <div className=" animate__animated shadow-xl animate__slideInUp flex flex-col relative bg-[#121312] w-screen h-[255px]">
                 <h1 className="text-3xl p-6 font-[Tanker] text-white title">Crear nueva Cartelera</h1>
                 <form onSubmit={handleSubmit(createNewBillBoard)} className=" grid grid-rows-2 grid-cols-4 items-center gap-6 w-full pr-12 pl-12 text-white">
                     <label htmlFor="name" className="label">
@@ -107,8 +132,8 @@ export const AdminCartelera = () => {
                         <input type="time" id="endTime" placeholder="" className=" text-white input" autoComplete="off" {...register("endTime", { required: true })} />
                         <span className="label_name text-white" style={{ userSelect: "none" }}>Termina</span>
                     </label>
-                    <label htmlFor="room" className="flex flex-row gap-4 items-center whitespace-nowrap">Salas disponibles:
-                        <select id="room" className="bg-transparent border-white p-2  border-[1px] rounded-lg" {...register("room", { required: true })}>
+                    <label htmlFor="roomID" className="flex flex-row gap-4 items-center whitespace-nowrap">Salas disponibles:
+                        <select id="roomID" className="bg-transparent border-white p-2  border-[1px] rounded-lg" {...register("roomID", { required: true })}>
                             <option value="" className="text-black">Seleccione una sala</option>
                             {availableRooms && availableRooms.filter(room => room.status === true).map(room => <option className="text-black" key={room.id} value={room.id}>{room.name}</option>)}
                         </select>

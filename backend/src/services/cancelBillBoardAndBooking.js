@@ -2,6 +2,7 @@ import { sequelize } from "../database/config/database.js"
 import { Billboard } from "../database/models/billboardEntity.js"
 import { Booking } from "../database/models/bookingEntity.js"
 import { Customer } from "../database/models/customerEntity.js"
+import { Room } from "../database/models/roomEntity.js"
 import { Seat } from "../database/models/seatEntity.js"
 import { Sequelize } from "sequelize"
 
@@ -39,6 +40,12 @@ export const cancelBillBoardAndBooking = async (req, res, next) => {
         await Seat.update({ status: true }, {
             where: { id: { [Sequelize.Op.in]: seatIDs } },
             transaction
+        })
+
+        await Room.update({ status: true }, {
+            where: {
+                id: billboard.roomID
+            }
         })
 
         await Booking.destroy({

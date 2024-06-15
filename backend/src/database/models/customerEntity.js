@@ -60,9 +60,9 @@ Customer.init({
         }
     },
     status: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: true,
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
     }
 }, {
     sequelize,

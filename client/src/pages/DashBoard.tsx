@@ -1,5 +1,4 @@
 import { useContext, useEffect } from "react"
-import { getHorrorBookings, getSeats } from "../services/queriesService"
 import { getBillBoard } from "../services/billboardServices"
 import { billBoardContext } from "../context/BillBoardContext"
 import { Link } from "react-router-dom"
@@ -18,14 +17,6 @@ export const Dashboard = () => {
         'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
     ]
     const today = new Date()
-
-    // const getSeatsAvailableAndBusy = async () => {
-    //     console.log(await getSeats())
-    // }
-
-    // const getHorrorBookingsBetweenHours = async () => {
-    //     console.log(await getHorrorBookings('18:00:00', '21:00:00'))
-    // }
 
     return (
         <main className="flex flex-row h-screen">

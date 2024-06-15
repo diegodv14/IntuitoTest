@@ -62,11 +62,14 @@
 
 .rooms {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    justify-items: center;
-    column-gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    column-gap: 20px;
+    row-gap: 20px
 }
 
+.fondo {
+    background-color: rgba(0, 0, 0, 0.884);
+}
 
 
 .label_name {

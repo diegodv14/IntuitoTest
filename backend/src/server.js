@@ -84,7 +84,6 @@ async function createTestData() {
         number: 2,
         rowNumber: 2,
         roomID: room2.dataValues.id,
-        status: false
     });
 
     const billboard1 = await Billboard.create({

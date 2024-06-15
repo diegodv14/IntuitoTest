@@ -1,15 +1,13 @@
 import express from 'express'
-const seatsRouter = express.Router()
+import { createSeat, getAllSeats } from '../controllers/SeatControllers.js'
+
+export const seatsRouter = express.Router()
 
 
-seatsRouter.get('/carteleras', async (req, res) => {
-
+seatsRouter.get('/asientos', async (req, res, next) => {
+    getAllSeats(req, res, next)
 })
 
-seatsRouter.post('/carteleras', async (req, res) => {
-
-})
-
-seatsRouter.get('/carteleras/:id', async (req, res) => {
-
+seatsRouter.post('/asientos', async (req, res, next) => {
+    createSeat(req, res, next)
 })

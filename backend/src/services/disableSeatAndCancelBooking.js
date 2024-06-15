@@ -2,28 +2,60 @@ import { sequelize } from "../database/config/database.js"
 import { Seat } from "../database/models/seatEntity.js"
 import { Booking } from "../database/models/bookingEntity.js"
 
-export const disableSeatAndCancelBooking = async (bookingID) => {
+
+//Servicio de despejar una butaca y cancelar su reserva
+
+export const disableSeatAndCancelBooking = async (req, res, next) => {
     let transaction
     try {
         transaction = await sequelize.transaction()
-        const booking = await Booking.findByPk(bookingID, { transaction });
-        if (!booking) throw new Error('Reserva no encontrada');
 
-        await Seat.update({ status: false }, {
-            where: { id: booking.seatID },
+        const seatID = req.params.id
+        const seat = await Seat.findByPk(seatID,
+            {
+                transaction
+            });
+
+        if (!seat) {
+            await transaction.rollback();
+            return res.status(404).json({ message: 'Butaca no encontrada.' });
+        }
+
+        const booking = await Booking.findOne({
+            include: [
+                {
+                    model: Seat,
+                    where: {
+                        id: seat.dataValues.id
+                    }
+                }
+            ],
             transaction
-        });
+        })
 
+        if (!booking) {
+            await transaction.rollback();
+            return res.status(404).json({ message: 'Reserva no encontrada para la butaca especificada.' });
+        }
         await Booking.destroy({
-            where: { id: bookingID },
+            where: {
+                id: booking.id
+            },
             transaction
         });
+
+        await Seat.update({ status: true }, {
+            where: {
+                id: seat.id
+            },
+            transaction
+        })
 
         await transaction.commit()
-        return { message: 'Reserva cancelada y butaca inhabilitada exitosamente.' };
+        res.json({ message: 'Reserva cancelada y butaca habilitada exitosamente.' });
 
     } catch (err) {
         if (transaction) await transaction.rollback();
-        return { message: "Hubo problemas para cancelar la reserva" }
+        next(err)
     }
 }
