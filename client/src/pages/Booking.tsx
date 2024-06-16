@@ -66,8 +66,9 @@ export const Booking = () => {
                 console.log(await createNewBooking(newBooking))
                 setSuccess(true)
                 setTimeout(() => {
+                    navigate('/')
                     setEmptyCustomer()
-                }, 3000)
+                }, 2000)
             }
         } catch (err) {
             console.log('Hubo un error al crear la reservacion' + err)
@@ -81,21 +82,26 @@ export const Booking = () => {
 
 
     const uniqueRows = Array.from(new Set(allSeats?.filter(seat => seat.roomID === movie?.roomID).map(seat => seat.rowNumber)));
-    const billBoardByAge = BillBoards.filter(BillBoard => BillBoard.Movie.allowedAge <= customer.age)
+    const billBoardByAge = BillBoards.filter(billbard => String(billbard.date) === formatDateToDDMMYYYY(new Date())).filter(BillBoard => BillBoard.Movie.allowedAge <= customer.age)
 
     return (
         <section className="w-screen h-screen">
             {success && <div className="w-screen h-screen absolute z-50 fondo flex flex-col gap-12 items-center justify-center"><span><svg xmlns="http://www.w3.org/2000/svg" width="62" height="62" fill="green" className="bi bi-calendar2-check-fill" viewBox="0 0 16 16">
                 <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5m9.954 3H2.545c-.3 0-.545.224-.545.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5m-2.6 5.854a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z" />
             </svg></span><h1 className="text-5xl font-[Tanker] text-white">Reserva creada con exito.</h1></div>}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
                 <div className="font-[Tanker] text-2xl shadow-lg w-full flex items-center justify-between p-4"><span>Este es el listado de peliculas que puedes ver segun tu edad 🔞</span>
                     <button onClick={() => GoBack()} title="Volver al Registro"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
                         <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
                     </svg></button></div>
-                {billBoardByAge.length > 0 && <ul className="w-[full] p-6 pt-4 h-[230px] items-center billboards gap-6">
+                {billBoardByAge.length > 0 && <ul className="w-[full] p-6 pt-4 h-[240px] overflow-y-auto items-center billboards gap-6">
                     {billBoardByAge.map(BillBoard => <li key={BillBoard.id} onMouseOver={() => setMovie(BillBoard)} className="relative w-[300px] h-[200px] rounded-lg flex flex-col justify-between">
-                        <div className={`rounded-md w-full hover:scale-110 transition-all h-[80%] shadow-md ${BillBoard.id === 1 ? "imageMovie1" : "imageMovie2"}`}>
+                        <div className={`rounded-md w-full hover:scale-110 transition-all h-[80%] shadow-md ${BillBoard.id === 1
+                            ? 'imageMovie1'
+                            : BillBoard.id === 2
+                                ? 'imageMovie2'
+                                : BillBoard.id === 3 ? 'imageMovie3' : 'imageDefault'
+                            }`}>
                         </div>
                         <div className="h-[20%] p-4 mt-2 flex items-center justify-between flex-row">
                             <h1 className="whitespace-nowrap">{BillBoard.Movie.name}</h1>

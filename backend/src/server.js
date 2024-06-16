@@ -37,11 +37,18 @@ async function createTestData() {
     });
 
     const movie2 = await Movie.create({
-        name: 'Avengers EndGame',
+        name: 'Avengers Endgame',
         genre: 'ACTION',
         allowedAge: 12,
         lengthMinutes: 90,
     });
+
+    const movie3 = await Movie.create({
+        name: 'The Batman',
+        genre: 'ACTION',
+        allowedAge: 12,
+        lengthMinutes: 180
+    })
 
     const room1 = await Room.create({
         name: 'Sala 1',
@@ -55,9 +62,10 @@ async function createTestData() {
         status: false
     });
 
-    await Room.create({
+    const room3 = await Room.create({
         name: 'Sala 3',
-        number: 3
+        number: 3,
+        status: false
     })
 
     const seat1 = await Seat.create({
@@ -102,6 +110,15 @@ async function createTestData() {
         movieID: movie2.dataValues.id,
         roomID: room2.dataValues.id,
     });
+
+    await Billboard.create({
+        date: '2024-06-13',
+        startTime: '17:00:00',
+        endTime: '19:00:00',
+        movieID: movie3.id,
+        roomID: room3.id,
+        status: true
+    })
 
     await Booking.create({
         date: new Date(),

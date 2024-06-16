@@ -14,6 +14,17 @@ export const getAllSeats = async (req, res, next) => {
 
 export const createSeat = async (req, res, next) => {
     try {
+
+        const IfExist = await Seat.findOne({
+            where: {
+                number: req.body.number,
+                rowNumber: req.body.rowNumber,
+                roomID: req.body.roomID
+            }
+        })
+
+        if (IfExist) res.json('Ya existe una butaca registrada a esa fila con ese numero en dicha sala.')
+
         const RecibedSeat = {
             number: req.body.number,
             rowNumber: req.body.rowNumber,

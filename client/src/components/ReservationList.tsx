@@ -21,8 +21,8 @@ export const ReservationList = () => {
                     <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
                 </svg></button>
             </nav>
-            <ul className="p-6 flex flex-col gap-4">
-                {bookings.length === 0 && <h1 className="self-center">Loading...</h1>}
+            <ul className="p-6 h-[530px] overflow-y-auto flex flex-col gap-4">
+                {bookings.length === 0 && <h1 className="self-center">No hay reservaciones</h1>}
                 {bookings.map((booking, i) => <li className="flex text-white rounded-lg p-3 flex-row items-center gap-4 bg-zinc-900" key={booking?.id}>
                     <span className="flex items-center justify-center bg-white rounded-full p-3 size-10 font-semibold text-black">{i + 1}</span>
                     <span><strong>Nombre:  </strong>{booking?.Customer.name} {booking?.Customer.lastname}</span>

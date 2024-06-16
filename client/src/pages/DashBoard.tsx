@@ -3,6 +3,8 @@ import { getBillBoard } from "../services/billboardServices"
 import { billBoardContext } from "../context/BillBoardContext"
 import { Link } from "react-router-dom"
 import { FormReserva } from "../components/FormReserva"
+import { formatDateToDDMMYYYY } from "../components/AdminCartelera"
+
 
 export const Dashboard = () => {
 
@@ -24,9 +26,14 @@ export const Dashboard = () => {
                 <nav className="flex flex-row justify-between items-center">
                     <h1 className="text-3xl font-semibold p-2 title">Cartelera del {String(today.getDate())} de {String(nombresMeses[today.getMonth()])} del {String(today.getFullYear())}</h1>
                 </nav>
-                <ul className="w-[full] flex-1 h-[85%] billboards mt-6 p-2">
-                    {BillBoards && BillBoards.map(BillBoard => <li key={BillBoard.id} className="size-36 relative w-full h-[200px] rounded-lg flex flex-col justify-between">
-                        <div className={`rounded-md w-full hover:scale-110 transition-all relative h-[80%] shadow-md ${BillBoard.id === 1 ? "imageMovie1" : "imageMovie2"}`}>
+                <ul className="w-[full] flex-1 h-[85%] overflow-y-auto overflow-x-hidden billboards mt-2 p-6">
+                    {BillBoards && BillBoards.filter(billbard => String(billbard.date) === formatDateToDDMMYYYY(new Date())).map(BillBoard => <li key={BillBoard.id} className="size-36 relative w-full h-[200px] rounded-lg flex flex-col justify-between">
+                        <div className={`rounded-md w-full hover:scale-110 transition-all relative h-[80%] shadow-md ${BillBoard.id === 1
+                            ? 'imageMovie1'
+                            : BillBoard.id === 2
+                                ? 'imageMovie2'
+                                : BillBoard.id === 3 ? 'imageMovie3' : 'imageDefault'
+                            }`}>
                             <p className="absolute bottom-2 right-2 text-white">De {BillBoard.startTime} a {BillBoard.endTime}</p>
                         </div>
                         <div className="h-[20%] p-4 mt-2 flex items-center justify-between flex-row">

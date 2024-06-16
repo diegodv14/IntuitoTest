@@ -5,12 +5,14 @@ import { Customer } from "../database/models/customerEntity.js"
 import { Room } from "../database/models/roomEntity.js"
 import { Seat } from "../database/models/seatEntity.js"
 import { Sequelize } from "sequelize"
+import { Movie } from "../database/models/movieEntity.js"
 
 //Funcion para cancelar una cartelera y sus reservas
 
 export const cancelBillBoardAndBooking = async (req, res, next) => {
     let transaction
     const today = new Date()
+
     try {
         const billboardID = req.params.id
         transaction = await sequelize.transaction()
@@ -18,11 +20,29 @@ export const cancelBillBoardAndBooking = async (req, res, next) => {
 
         if (!billboard) {
             await transaction.rollback()
-            res.json('No se encontró la cartelera especificada.');
+            res.json({ err: 'No se encontró la cartelera especificada.' });
         }
-        if (billboard.date < today) {
+
+        const billboardDate = new Date(billboard.date)
+
+        today.setUTCHours(0, 0, 0, 0);
+        billboardDate.setUTCHours(0, 0, 0, 0);
+
+        const todayYear = today.getFullYear();
+        const todayMonth = today.getMonth();
+        const todayDay = today.getDate();
+
+        const billboardYear = billboardDate.getUTCFullYear();
+        const billboardMonth = billboardDate.getUTCMonth();
+        const billboardDay = billboardDate.getUTCDate();
+
+        console.log(todayYear, todayMonth, todayDay, "Later", billboardYear, billboardMonth, billboardDay)
+
+        if (billboardYear < todayYear ||
+            (billboardYear === todayYear && billboardMonth < todayMonth) ||
+            (billboardYear === todayYear && billboardMonth === todayMonth && billboardDay < todayDay)) {
             await transaction.rollback()
-            res.json('No se puede cancelar funciones de la cartelera con fecha anterior a la actual')
+            return res.send(false)
         }
 
         const bookings = await Booking.findAll({
@@ -33,7 +53,7 @@ export const cancelBillBoardAndBooking = async (req, res, next) => {
             include: [Customer]
         })
 
-        console.log('Clientes Afectados', bookings.map(book => book.Customer.name))
+        const CustomerAffected = bookings.map(book => book.Customer.name)
 
         const seatIDs = bookings.map(book => book.seatID)
 
@@ -58,12 +78,23 @@ export const cancelBillBoardAndBooking = async (req, res, next) => {
             transaction
         });
 
+        await Movie.destroy({
+            where: { id: billboard.movieID },
+            transaction
+        })
+
         await transaction.commit()
 
-        res.json('Cartelera Cancelada')
+        res.json('La cartelera fue cancelada y los clientes afectados son los siguientes: ' + CustomerAffected)
 
     } catch (err) {
-        if (transaction) await transaction.rollback()
+        if (transaction) {
+            try {
+                await transaction.rollback()
+            } catch (rollbackErr) {
+                console.error('Error during transaction rollback:', rollbackErr)
+            }
+        } if (transaction) await transaction.rollback()
         next(err)
     }
 

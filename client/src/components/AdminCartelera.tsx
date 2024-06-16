@@ -46,6 +46,7 @@ export const formatDateToDDMMYYYY = (date: Date): string => {
 export const AdminCartelera = () => {
 
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false);
     const { BillBoards, setBillBoards } = useContext(billBoardContext)
     const [newBillBoard, setNewBillBoard] = useState(false)
     const { register, handleSubmit, reset } = useForm<NewBillBoardProps>()
@@ -61,6 +62,11 @@ export const AdminCartelera = () => {
     }, [BillBoards])
 
     const createNewBillBoard = async (data: NewBillBoardProps) => {
+
+        if (loading) return
+
+        setLoading(true)
+
         const newMovie = {
             name: data.name,
             genre: data.genre,
@@ -76,24 +82,24 @@ export const AdminCartelera = () => {
             roomID: Number(data.roomID)
         }
         const CreatedBillBoard = await createBillboard(newBillBoard)
-        console.log(CreatedBillBoard)
         setBillBoards(prevState => [...prevState, CreatedBillBoard])
         reset()
         setNewBillBoard(false)
+        setLoading(false)
 
     }
 
     return (
-        <section>
+        <section className="relative">
             <nav className="w-full p-6 font-[Tanker] flex items-center justify-between shadow-md">
                 <h1 className="text-3xl title">Administrar Cartelera</h1>
                 <button onClick={() => navigate('/')} title="Volver al Registro"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
                     <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
                 </svg></button>
             </nav>
-            <ul className="w-[full] flex-1 h-[280px] billboards p-10">
+            <ul className="w-[full] flex-1 h-[280px] billboards p-10 overflow-y-auto overflow-x-hidden">
                 {BillBoards && BillBoards.map(BillBoard => <Cartelera key={BillBoard.id} BillBoard={BillBoard} />)}
-                <button onClick={() => setNewBillBoard(!newBillBoard)} className={`h-[78%] w-full rounded-lg ${newBillBoard === false ? "bg-gray-400 text-gray-200" : "bg-red-700 text-red-500"} opacity-30 active:scale-90 flex items-center justify-center shadow-xl`}>{newBillBoard === false ? <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-plus-circle" viewBox="0 0 16 16">
+                <button onClick={() => setNewBillBoard(!newBillBoard)} className={`h-[150px] w-full rounded-lg ${newBillBoard === false ? "bg-gray-400 text-gray-200" : "bg-red-700 text-red-500"} opacity-30 active:scale-90 flex items-center justify-center shadow-xl`}>{newBillBoard === false ? <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-plus-circle" viewBox="0 0 16 16">
                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
                     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
                 </svg> : <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-x-circle" viewBox="0 0 16 16">
@@ -101,7 +107,7 @@ export const AdminCartelera = () => {
                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                 </svg>}</button>
             </ul>
-            {newBillBoard && <div className=" animate__animated shadow-xl animate__slideInUp flex flex-col relative bg-[#121312] w-screen h-[255px]">
+            {newBillBoard && <div className="absolute animate__animated shadow-xl animate__slideInUp flex flex-col bg-[#121312] w-screen h-[275px]">
                 <h1 className="text-3xl p-6 font-[Tanker] text-white title">Crear nueva Cartelera</h1>
                 <form onSubmit={handleSubmit(createNewBillBoard)} className=" grid grid-rows-2 grid-cols-4 items-center gap-6 w-full pr-12 pl-12 text-white">
                     <label htmlFor="name" className="label">
