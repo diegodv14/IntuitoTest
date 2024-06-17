@@ -4,14 +4,9 @@ import { getSeats } from '../services/getSeats.js';
 export const queriesRouter = express.Router();
 
 
-queriesRouter.post('/reservas/Horror', async (req, res, next) => {
-    try {
-        const { startTime, endTime } = req.body
-        const reservasTerror = await getHorrorReservations(startTime, endTime)
-        res.json(reservasTerror)
-    } catch (err) {
-        next(err)
-    }
+queriesRouter.get('/reservaciones/Horror', async (req, res, next) => {
+    await getHorrorReservations(req, res, next)
+
 })
 
 queriesRouter.get('/asientos/porSala', async (req, res, next) => {

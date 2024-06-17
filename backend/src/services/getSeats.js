@@ -4,7 +4,7 @@ import { Seat } from "../database/models/seatEntity.js"
 import { Room } from "../database/models/roomEntity.js";
 //Funcion para obtener los asientos disponibles y ocupados de todas las salas que se encuentran con funciones el dia de hoy.
 
-const formatDateToDDMMYYYY = (date) => {
+export const formatDateToDDMMYYYY = (date) => {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();

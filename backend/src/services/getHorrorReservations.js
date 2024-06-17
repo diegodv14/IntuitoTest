@@ -1,32 +1,44 @@
 import { Booking } from "../database/models/bookingEntity.js";
 import { Billboard } from "../database/models/billboardEntity.js";
 import { Movie } from "../database/models/movieEntity.js";
-import { Customer } from "../database/models/customerEntity.js";
+import { Op } from "sequelize";
 
 
-export const getHorrorReservations = async (startTime, endTime) => {
+
+//query para obtener las reservaciones de peliculas de horror entre fechas. Solicitud GET Ejemplo de url: http://127.0.0.1:3002/api/reservaciones/Horror?startDate=2024-06-20&endDate=2024-06-30
+
+export const getHorrorReservations = async (req, res, next) => {
     try {
-        const reservations = await Booking.findAll({
+        const { startDate, endDate } = req.query;
+
+        if (!startDate || !endDate) {
+            return res.json('Se requieren fecha de inicio y fecha de fin.');
+        }
+
+        const reservationsOfHorrorMovies = await Booking.findAll({
             include: [
                 {
                     model: Billboard,
-                    // include: [
-                    //     {
-                    //         model: Movie,
-                    //         as: 'Movie',
-                    //         where: { genre: 'HORROR' }
-                    //     },
-                    // ],
+                    required: true,
+                    include: [
+                        {
+                            model: Movie,
+                            where: {
+                                genre: 'HORROR'
+                            }
+                        }
+                    ]
                 },
             ],
             where: {
-                '$Billboard.startTime$': {
-                    [Op.between]: [startTime, endTime]
-                },
-            },
-        })
-        return reservations
+                date: {
+                    [Op.between]: [startDate, endDate]
+                }
+            }
+        });
+
+        res.send(reservationsOfHorrorMovies);
     } catch (err) {
-        throw new Error(`No se puedo determinar las reservas de peliculas de terror entre ${startTime} y ${endTime}`)
+        next(err);
     }
-} 
+};

@@ -138,14 +138,14 @@ async function createTestData() {
 }
 
 
-const doConnection = async () => {
+export const doConnection = async () => {
     try {
         await sequelize.sync({ force: true })
         await createTestData()
         console.log('Conexion establecida exitosamente.');
 
     } catch (error) {
-        console.error('No se pudo conectar a la base de datos', error);
+        console.log('No se pudo conectar a la base de datos', error);
     }
 }
 app.listen(process.env.PORT, () => {

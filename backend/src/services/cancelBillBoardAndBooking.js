@@ -20,10 +20,10 @@ export const cancelBillBoardAndBooking = async (req, res, next) => {
 
         if (!billboard) {
             await transaction.rollback()
-            res.json({ err: 'No se encontró la cartelera especificada.' });
+            return res.json({ err: 'No se encontró la cartelera especificada.' });
         }
 
-        const billboardDate = new Date(billboard.date)
+        const billboardDate = new Date(billboard?.date)
 
         today.setUTCHours(0, 0, 0, 0);
         billboardDate.setUTCHours(0, 0, 0, 0);
@@ -35,8 +35,6 @@ export const cancelBillBoardAndBooking = async (req, res, next) => {
         const billboardYear = billboardDate.getUTCFullYear();
         const billboardMonth = billboardDate.getUTCMonth();
         const billboardDay = billboardDate.getUTCDate();
-
-        console.log(todayYear, todayMonth, todayDay, "Later", billboardYear, billboardMonth, billboardDay)
 
         if (billboardYear < todayYear ||
             (billboardYear === todayYear && billboardMonth < todayMonth) ||
@@ -85,16 +83,9 @@ export const cancelBillBoardAndBooking = async (req, res, next) => {
 
         await transaction.commit()
 
-        res.json('La cartelera fue cancelada y los clientes afectados son los siguientes: ' + CustomerAffected)
+        res.json({ message: 'La cartelera fue cancelada y los clientes afectados son los siguientes: ', CustomerAffected })
 
     } catch (err) {
-        if (transaction) {
-            try {
-                await transaction.rollback()
-            } catch (rollbackErr) {
-                console.error('Error during transaction rollback:', rollbackErr)
-            }
-        } if (transaction) await transaction.rollback()
         next(err)
     }
 

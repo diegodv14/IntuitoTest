@@ -27,7 +27,7 @@ export const ReservationList = () => {
                     <span className="flex items-center justify-center bg-white rounded-full p-3 size-10 font-semibold text-black">{i + 1}</span>
                     <span><strong>Nombre:  </strong>{booking?.Customer.name} {booking?.Customer.lastname}</span>
                     <span><strong>C.I: </strong>{booking?.Customer.documentNumber}</span>
-                    <span><strong>Email:  </strong>{booking?.Customer.email}</span>
+                    <span><strong>Fecha:  </strong>{booking?.date}</span>
                     <span><strong>Celular: </strong>{booking?.Customer.phoneNumber}</span>
                     <span><strong>Pelicula: </strong>{booking?.Billboard.Movie.name}</span>
                     <span><strong>Sala: </strong>{booking?.Seat.Room.name}</span>

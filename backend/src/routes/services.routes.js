@@ -4,7 +4,13 @@ import { cancelBillBoardAndBooking } from '../services/cancelBillBoardAndBooking
 export const servicesRouter = express.Router();
 
 servicesRouter.delete('/asientos/:id', async (req, res, next) => {
-    disableSeatAndCancelBooking(req, res, next)
+    try {
+        const response = disableSeatAndCancelBooking(req.params.id)
+        res.json(response)
+
+    } catch (err) {
+        next(err)
+    }
 })
 
 servicesRouter.delete('/carteleras/:id', async (req, res, next) => {
