@@ -49,7 +49,7 @@ export const AdminCartelera = () => {
     const [loading, setLoading] = useState(false);
     const { BillBoards, setBillBoards } = useContext(billBoardContext)
     const [newBillBoard, setNewBillBoard] = useState(false)
-    const { register, handleSubmit, reset } = useForm<NewBillBoardProps>()
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<NewBillBoardProps>()
     const [availableRooms, setAvailableRooms] = useState<Array<Room>>()
 
     useEffect(() => {
@@ -107,42 +107,51 @@ export const AdminCartelera = () => {
                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                 </svg>}</button>
             </ul>
-            {newBillBoard && <div className="absolute animate__animated shadow-xl animate__slideInUp flex flex-col bg-[#121312] w-screen h-[275px]">
+            {newBillBoard && <div className="absolute -bottom-64 animate__animated shadow-xl animate__slideInUp flex flex-col bg-[#121312] w-screen h-[320px]">
                 <h1 className="text-3xl p-6 font-[Tanker] text-white title">Crear nueva Cartelera</h1>
                 <form onSubmit={handleSubmit(createNewBillBoard)} className=" grid grid-rows-2 grid-cols-4 items-center gap-6 w-full pr-12 pl-12 text-white">
-                    <label htmlFor="name" className="label">
+                    <label htmlFor="name" className="label h-[75px]">
                         <input type="text" id="name" placeholder="" className=" text-white input" autoComplete="off" {...register("name", { required: true })} />
                         <span className="label_name text-white" style={{ userSelect: "none" }}>Nombre de la Pelicula</span>
+                        {errors?.name?.type === "required" && <span className='text-[10px] ml-1 text-red-700 pt-2 error'>Debes ingresar el nombre de la pelicula</span>}
                     </label>
-                    <label htmlFor="genre" className="flex flex-row gap-4 items-center">Genero:
+                    <label htmlFor="genre" className="flex flex-col gap-1 mt-2 items-center h-[75px]">
                         <select id="genre" className="bg-transparent border-white p-2  border-[1px] rounded-lg" {...register("genre", { required: true })}>
+                            <option value="">Seleccione un genero</option>
                             {Object.values(Genre).map((g) => (
                                 <option key={g} className="text-black" value={g}>
                                     {g.slice()[0]}{g.slice(1).toLowerCase().replace('_', ' ')}
                                 </option>))}
                         </select>
+                        {errors?.genre?.type === "required" && <span className='text-[10px] ml-10 text-red-700 pt-2 error whitespace-nowrap'>Debes seleccionar un genero</span>}
                     </label>
-                    <label htmlFor="allowedAge" className="label">
+                    <label htmlFor="allowedAge" className="label h-[75px]">
                         <input type="number" id="allowedAge" placeholder="" className=" text-white input" autoComplete="off" {...register("allowedAge", { required: true })} />
                         <span className="label_name text-white" style={{ userSelect: "none" }}>Edad minima</span>
+                        {errors?.allowedAge?.type === "required" && <span className='text-[10px] ml-10 text-red-700 pt-2 error'>Debes ingresar una edad minima</span>}
                     </label>
-                    <label htmlFor="lengthMinutes" className="label">
+                    <label htmlFor="lengthMinutes" className="label h-[75px]">
                         <input type="number" id="lengthMinutes" placeholder="" className=" text-white input" autoComplete="off" {...register("lengthMinutes", { required: true })} />
                         <span className="label_name text-white" style={{ userSelect: "none" }}>Duracion</span>
+                        {errors?.lengthMinutes?.type === "required" && <span className='text-[10px] ml-10 text-red-700 pt-2 error'>Debes ingresar la duracion</span>}
+
                     </label>
-                    <label htmlFor="startTime" className="label">
+                    <label htmlFor="startTime" className="label h-[75px]">
                         <input type="time" id="startTime" placeholder="" className=" text-white input" autoComplete="off" {...register("startTime", { required: true })} />
                         <span className="label_name text-white" style={{ userSelect: "none" }}>Comienza</span>
+                        {errors?.startTime?.type === "required" && <span className='text-[10px] ml-10 text-red-700 pt-2 error'>Debes ingresar la hora de comienzo</span>}
                     </label>
-                    <label htmlFor="endTime" className="label">
+                    <label htmlFor="endTime" className="label h-[75px]">
                         <input type="time" id="endTime" placeholder="" className=" text-white input" autoComplete="off" {...register("endTime", { required: true })} />
                         <span className="label_name text-white" style={{ userSelect: "none" }}>Termina</span>
+                        {errors?.endTime?.type === "required" && <span className='text-[10px] ml-10 text-red-700 pt-2 error'>Debes ingresar la hora de finalizacion</span>}
                     </label>
-                    <label htmlFor="roomID" className="flex flex-row gap-4 items-center whitespace-nowrap">Salas disponibles:
+                    <label htmlFor="roomID" className="flex flex-col gap-1 items-center whitespace-nowrap h-[75px]">
                         <select id="roomID" className="bg-transparent border-white p-2  border-[1px] rounded-lg" {...register("roomID", { required: true })}>
                             <option value="" className="text-black">Seleccione una sala</option>
                             {availableRooms && availableRooms.filter(room => room.status === true).map(room => <option className="text-black" key={room.id} value={room.id}>{room.name}</option>)}
                         </select>
+                        {errors?.roomID?.type === "required" && <span className='text-[10px] ml-10 text-red-700 pt-2 error whitespace-nowrap'>Debes seleccionar una sala</span>}
                     </label>
                     <button type="submit" className="flex flex-row gap-2 text-sm shadow-xl absolute top-5 left-80 w-fit items-center bg-white rounded-full text-black p-3 pl-5 pr-5">Crear Cartelera <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-film" viewBox="0 0 16 16">
                         <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm4 0v6h8V1zm8 8H4v6h8zM1 1v2h2V1zm2 3H1v2h2zM1 7v2h2V7zm2 3H1v2h2zm-2 3v2h2v-2zM15 1h-2v2h2zm-2 3v2h2V4zm2 3h-2v2h2zm-2 3v2h2v-2zm2 3h-2v2h2z" />

@@ -50,6 +50,7 @@
 .label {
     display: grid;
     grid-template-areas: "input";
+    gap: 6px;
 
 }
 

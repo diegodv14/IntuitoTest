@@ -23,7 +23,7 @@ export const Booking = () => {
     const { BillBoards } = useContext(billBoardContext)
     const [movie, setMovie] = useState<Billboard | null>(null)
     const [success, setSuccess] = useState(false)
-    const { register, handleSubmit, watch } = useForm<Booking>({
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<Booking>({
     })
     const watchRow = watch("rowNumber")
 
@@ -128,7 +128,7 @@ export const Booking = () => {
                     <span className="text-white flex flex-row gap-2"><span className="font-[Tanker]">Lugar: </span>{movie.Room.name}</span>
                 </div>
                     <form className="h-[80%] w-[72%] flex items-center justify-around border-l" onSubmit={handleSubmit(createBooking)}>
-                        <label htmlFor="row" className="flex flex-row gap-4 items-center whitespace-nowrap text-white">Filas en esta Sala:
+                        <label htmlFor="row" className="flex flex-col gap-4 items-center whitespace-nowrap h-[75px] text-white">Filas en esta Sala:
                             <select id="row" className="bg-transparent border-white p-2  border-[1px] rounded-lg" {...register("rowNumber", { required: true })}>
                                 <option value="" className="text-black">Selecciona una fila</option>
                                 {uniqueRows.map(rowNumber => (
@@ -137,12 +137,14 @@ export const Booking = () => {
                                     </option>
                                 ))}
                             </select>
+                            {errors?.rowNumber?.type === "required" && <span className='text-[10px] text-red-700 pt-2 error'>Debes seleccionar una fila</span>}
                         </label>
-                        {watchRow && <label htmlFor="seat" className="flex flex-row gap-4 items-center whitespace-nowrap text-white">Butacas Disponibles:
+                        {watchRow && <label htmlFor="seat" className="flex flex-col gap-4 items-center h-[75px] whitespace-nowrap text-white">Butacas Disponibles:
                             <select id="seat" className="bg-transparent border-white p-2  border-[1px] rounded-lg" {...register("seatID", { required: true })}>
                                 <option value="" className="text-black">Seleccione una butaca</option>
                                 {allSeats?.filter(seat => seat.roomID === movie.roomID && seat.rowNumber === Number(watchRow) && seat.status === true).map(seat => <option className="text-black" key={seat.id} value={seat.id}>Butaca {seat.number}</option>)}
                             </select>
+                            {errors?.seatID?.type === "required" && <span className='text-[10px] text-red-700 pt-2 error'>Debes seleccionar una Butaca</span>}
                         </label>}
                         <button className="flex flex-row gap-2 text-sm shadow-xl w-fit h-fit items-center bg-white rounded-full text-black p-3 pl-5 pr-5"><span>Reservar</span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-journal-check" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0" />
